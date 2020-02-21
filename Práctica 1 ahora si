@@ -1,0 +1,216 @@
+#Práctica 1
+
+import tkinter as tk
+from tkinter import ttk
+from tkinter import scrolledtext
+from tkinter import Menu
+from tkinter import messagebox as mBox
+
+def acerca_de():
+    mBox.showinfo("Acerca de","Juan Pedro Duarte Alvarez, ISC, sem IV, Compañía 1")
+
+def datos():
+    res=""
+    if nombre.get()!="" and ap.get()!="" and am.get()!="" and dir.get()!="" and col.get()!="" and ciudad.get()!="" and mun.get()!="":
+        res+=(" Nombre: \t"+nombre.get()+"\n Apellido Paterno: \t"+ap.get()+"\n Apellido Materno: \t"+am.get()+"\n Dirección: \t"+dir.get()+"\n Colonia: \t"+col.get()+"\n Ciudad: \t"+ciudad.get()+"\n Municipio: \t"+mun.get())
+    else:
+        res+=("Los datos están incompletos")
+    return res
+
+def click():
+    mBox.showinfo("Datos Personales Ingresados",datos())
+
+def salir():
+    ventana.quit()
+    ventana.destroy()
+    exit()
+
+def radio():
+    rs=""
+    sel=opcion.get()
+    if sel==0:rs="No seleccionaste un estado civil"
+    else:
+        rs+="Estado Civil: \t"
+        if sel==1: rs+="Soltero"
+        elif sel==2: rs+="Viudo"
+        elif sel==3: rs+="Casado"
+        elif sel==4: rs+="Divorciado"
+        elif sel==5: rs+="Soltero"
+    return rs
+
+def check():
+    res=""
+    if opcion_1.get()==0 and opcion_2.get()==0 and opcion_3.get()==0 and opcion_4.get()==0 and opcion_5.get()==0:
+        res="No seleccionaste pasatiempos"
+    else:
+        res="Pasatiempo(s): \t"
+        esc=opcion_1.get()
+        if esc:
+            res+="Leer"
+        esc=opcion_2.get()
+        if esc:
+            if res!="Pasatiempo(s): \t":
+                res+=", "
+            res+="Escribir"
+        esc=opcion_3.get()
+        if esc:
+            if res!="Pasatiempo(s): \t":
+                res+=", "
+
+            res+="Correr"
+        esc=opcion_4.get()
+        if esc:
+            if res!="Pasatiempo(s): \t":
+                res+=", "
+            res+="Jugar"
+        esc=opcion_5.get()
+        if esc:
+            if res!="Pasatiempo(s): \t":
+                res+=" y "
+            res+="Comer"
+    return res
+
+
+def click_2():
+    res=""
+    res=radio()+"\n"+check()+"\n"+cajaf()
+
+    mBox.showinfo("Datos extras ingresados",res)
+
+def imprimir():
+    res=""
+    res=(datos()+"\n"+check()+"\n"+radio()+"\n"+cajaf())
+    mBox.showinfo("Todos los datos ingresados",res)
+
+def cajaf():
+    res=caja.get('1.0',tk.END)
+    if res=="\n":
+        res="No ingresaste objetivos en la vida"
+    else: res=("Objetivo(s) de la vida: "+res)
+    return res
+
+ventana=tk.Tk()
+ventana.title("Sistema escolar-Menu")
+
+#Menu
+barra_menu=Menu(ventana)
+ventana.config(menu=barra_menu)
+
+#opciones del menú
+opciones_menu=Menu(barra_menu,tearoff=0)
+opciones_menu.add_command(label="Imprimir",command=imprimir)
+opciones_menu.add_command(label="Salir",command=salir)
+barra_menu.add_cascade(label="Sistema",menu=opciones_menu)
+
+
+menu_ayuda=Menu(barra_menu,tearoff=0)
+menu_ayuda.add_command(label="Acerca de",command=acerca_de)
+barra_menu.add_cascade(label="Ayuda",menu=menu_ayuda)
+
+#Pestaña 1
+
+tabControl=ttk.Notebook(ventana)
+tab1=ttk.Frame(tabControl)
+tabControl.add(tab1,text="Datos Personales")
+tabControl.pack(expand=1,fill="both")
+
+tab2=ttk.Frame(tabControl)
+tabControl.add(tab2,text="Datos Extras")
+
+ttk.Label(tab1,text="Nombre: ").grid(column=0,row=1)
+nombre=tk.StringVar()
+nombreCapturado=ttk.Entry(tab1,width=12,textvariable=nombre)
+nombreCapturado.grid(column=1,row=1)
+
+ttk.Label(tab1,text="Apellido Paterno: ").grid(column=0,row=3)
+ap=tk.StringVar()
+apCapturado=ttk.Entry(tab1,width=12,textvariable=ap)
+apCapturado.grid(column=1,row=3)
+
+ttk.Label(tab1,text="Apellido Materno: ").grid(column=0,row=5)
+am=tk.StringVar()
+amCapturado=ttk.Entry(tab1,width=12,textvariable=am)
+amCapturado.grid(column=1,row=5)
+
+ttk.Label(tab1,text="Dirección: ").grid(column=0,row=7)
+dir=tk.StringVar()
+dirCapturado=ttk.Entry(tab1,width=12,textvariable=dir)
+dirCapturado.grid(column=1,row=7)
+
+ttk.Label(tab1,text="Colonia: ").grid(column=0,row=9)
+col=tk.StringVar()
+colSeleccionado=ttk.Combobox(tab1, width=12,textvariable=col)
+colSeleccionado['values']=("","Primera", "Segunda", "Tercera")
+colSeleccionado.grid(column=1,row=9)
+colSeleccionado.current(0)
+
+ttk.Label(tab1,text="Ciudad: ").grid(column=0,row=11)
+ciudad=tk.StringVar()
+ciudadSeleccionado=ttk.Combobox(tab1, width=12,textvariable=ciudad)
+ciudadSeleccionado['values']=("","Morelia", "Pátzcuaro", "Quiroga")
+ciudadSeleccionado.grid(column=1,row=11)
+ciudadSeleccionado.current(0)
+
+ttk.Label(tab1,text="Municipio: ").grid(column=0,row=13)
+mun=tk.StringVar()
+munSeleccionado=ttk.Combobox(tab1, width=12,textvariable=mun)
+munSeleccionado['values']=("","Morelia", "Uruapan", "velwjh")
+munSeleccionado.grid(column=1,row=13)
+munSeleccionado.current(0)
+
+accion=ttk.Button(tab1,text="Imprimir Datos Personales",command=click)
+accion.grid(column=2,row=21)
+
+#Pestaña 2
+
+(ttk.Label(tab2,text="Pasatiempos: ")).grid(column=0,row=15)
+opcion_1=tk.IntVar()
+casilla_1=tk.Checkbutton(tab2,text="Leer",variable=opcion_1)
+casilla_1.deselect()
+casilla_1.grid(column=0,row=16,sticky=tk.W)
+
+opcion_2=tk.IntVar()
+casilla_2=tk.Checkbutton(tab2,text="Escribir",variable=opcion_2)
+casilla_2.deselect()
+casilla_2.grid(column=1,row=16,sticky=tk.W)
+
+opcion_3=tk.IntVar()
+casilla_3=tk.Checkbutton(tab2,text="Correr",variable=opcion_3)
+casilla_3.deselect()
+casilla_3.grid(column=2,row=16,sticky=tk.W)
+
+opcion_4=tk.IntVar()
+casilla_4=tk.Checkbutton(tab2,text="Jugar",variable=opcion_4)
+casilla_4.deselect()
+casilla_4.grid(column=3,row=16,sticky=tk.W)
+
+opcion_5=tk.IntVar()
+casilla_5=tk.Checkbutton(tab2,text="Comer",variable=opcion_5)
+casilla_5.deselect()
+casilla_5.grid(column=4,row=16,sticky=tk.W)
+
+opcion=tk.IntVar()
+(ttk.Label(tab2,text="Estado Civil: ")).grid(column=0,row=18)
+radio1=tk.Radiobutton(tab2,text="Soltero",variable=opcion,value=1)
+radio1.grid(column=0,row=19,sticky=tk.W)
+
+radio2=tk.Radiobutton(tab2,text="Viudo",variable=opcion,value=2)
+radio2.grid(column=1,row=19,sticky=tk.W)
+
+radio3=tk.Radiobutton(tab2,text="Casado",variable=opcion,value=3)
+radio3.grid(column=2,row=19,sticky=tk.W)
+
+radio4=tk.Radiobutton(tab2,text="Divorciado",variable=opcion,value=4)
+radio4.grid(column=3,row=19,sticky=tk.W)
+
+radio5=tk.Radiobutton(tab2,text="Soltero",variable=opcion,value=5)
+radio5.grid(column=4,row=19,sticky=tk.W)
+
+ttk.Label(tab2,text="Objetivo de la vida:").grid(column=0,row=21)
+caja=scrolledtext.ScrolledText(tab2,width=30,height=3,wrap=tk.WORD)
+caja.grid(column=0,columnspan=3)
+
+act2=ttk.Button(tab2,text="Imprimir Datos extras",command=click_2)
+act2.grid(column=2,row=23)
+
+ventana.mainloop()
